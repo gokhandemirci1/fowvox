@@ -9,9 +9,15 @@ import os
 app = FastAPI(title="FlowVox AI Portfolio API", version="1.0.0")
 
 # CORS middleware - frontend ile iletişim için
+# Environment variable'dan CORS origins al, yoksa default kullan
+cors_origins = os.getenv(
+    "CORS_ORIGINS",
+    "http://localhost:3000,http://localhost:3001"
+).split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001"],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

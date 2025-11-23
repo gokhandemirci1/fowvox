@@ -6,8 +6,8 @@ FlowVox AI şirketi için modern portföy sitesi ve randevu yönetim sistemi.
 
 ```
 flowvox/
-├── frontend/          # Next.js frontend uygulaması
-├── backend/           # Python FastAPI backend servisi
+├── frontend/          # Next.js frontend uygulaması (Vercel'e deploy edilir)
+├── backend/           # Python FastAPI backend servisi (Railway/Render/Fly.io'ya deploy edilir)
 └── README.md
 ```
 
@@ -24,12 +24,14 @@ flowvox/
 ### Backend
 - **Python 3.10+** - Programming language
 - **FastAPI** - Modern web framework
-- **SQLite** - Database
+- **SQLite** - Database (development için)
 - **Pydantic** - Data validation
 
-## Kurulum ve Çalıştırma
+## Hızlı Başlangıç
 
-### Backend Kurulumu
+### Local Development
+
+#### Backend Kurulumu
 
 ```bash
 cd backend
@@ -50,10 +52,10 @@ pip install -r requirements.txt
 uvicorn main:app --reload --port 8000
 ```
 
-Backend API: http://localhost:8000
+Backend API: http://localhost:8000  
 API Dokümantasyonu: http://localhost:8000/docs
 
-### Frontend Kurulumu
+#### Frontend Kurulumu
 
 ```bash
 cd frontend
@@ -70,6 +72,31 @@ npm run dev
 ```
 
 Frontend: http://localhost:3000
+
+## Deployment
+
+### Vercel (Frontend)
+
+Detaylı deployment rehberi için [VERCEL_DEPLOY.md](./VERCEL_DEPLOY.md) dosyasına bakın.
+
+**Hızlı Özet:**
+1. Vercel dashboard'da yeni proje oluşturun
+2. GitHub repository'nizi bağlayın
+3. **Root Directory**: `frontend` olarak ayarlayın
+4. Environment Variable ekleyin: `NEXT_PUBLIC_API_URL=https://your-backend-url.com`
+5. Deploy edin!
+
+### Backend Hosting
+
+Backend için önerilen platformlar:
+- **Railway** (Önerilen) - [railway.app](https://railway.app)
+- **Render** - [render.com](https://render.com)
+- **Fly.io** - [fly.io](https://fly.io)
+
+Backend deploy edildikten sonra:
+1. Backend URL'ini not edin
+2. CORS ayarlarını güncelleyin (Vercel domain'inizi ekleyin)
+3. Environment variable ekleyin: `CORS_ORIGINS=https://your-vercel-domain.vercel.app`
 
 ## Özellikler
 
@@ -88,6 +115,19 @@ Frontend: http://localhost:3000
 - `GET /api/appointments` - Tüm randevuları listele
 - `GET /api/appointments/{id}` - Belirli bir randevuyu getir
 
+## Environment Variables
+
+### Frontend (.env.local)
+```
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
+
+### Backend
+```
+CORS_ORIGINS=http://localhost:3000,http://localhost:3001,https://your-vercel-domain.vercel.app
+DATABASE_URL=appointments.db
+```
+
 ## Geliştirme
 
 Projeyi geliştirmek için:
@@ -99,4 +139,3 @@ Projeyi geliştirmek için:
 ## Lisans
 
 Bu proje FlowVox AI için özel olarak geliştirilmiştir.
-
